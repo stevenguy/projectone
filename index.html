@@ -10,7 +10,7 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     
@@ -38,6 +38,7 @@
     </ul>
     <!--Search Bar-->
     <div class="container">
+        <div class="row" style="height: 5px;"></div>
         <div id="searchBar" class="row">
             <div class="col s12">
                 <span id="empty-recipe"></span>
@@ -59,45 +60,7 @@
 
         <div class="row">
             <div id="recipeOutput">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="assets/images/Pasta.jpg" alt="pasta">
-                        <a href="#" class="halfway-fab btn-floating pink">
-                            <i class="material-icons">favorite</i></a>
-                        </a>
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title">Mango and Curry</span>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                         Suscipit, minus nulla autem, excepturi aperiam 
-                         obcaecati maxime nemo blanditiis, maiores ea dicta consectetur! Ab quod animi maxime consequatur, ipsa asperiores ducimus.
-                    </div>
-                    <div class="card-action">
-                        <a href="#">More details</a>
-                        <a href="#">View Ingredients</a>
-                    </div>
-                </div>
             </div>
-            <!-- <div class="col s12 m5 13">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="assets/images/pasta1.jpg" alt="pasta">
-                        <a href="#" class="halfway-fab btn-floating pink">
-                            <i class="material-icons">favorite</i>
-                        </a>
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title">Pasta</span>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                            Suscipit, minus nulla autem, excepturi aperiam 
-                            obcaecati maxime nemo blanditiis, maiores ea dicta consectetur! Ab quod animi maxime consequatur, ipsa asperiores ducimus.
-                    </div>
-                    <div class="card-action">
-                        <a href="#">More details</a>
-                        <a href="view">View Ingredients</a>
-                    </div>
-                </div>
-            </div> -->
             <!--Favorite Output area-->
             <div id="favoriteOutput"></div>
         </div>
