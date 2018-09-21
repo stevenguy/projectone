@@ -328,7 +328,8 @@ $('#login').on('click', function(event) {
     event.preventDefault()
     firebase.auth().signOut().then(function() {
         // Sign-out successful.
-    document.getElementById('login').innerHTML = `Login`
+    document.getElementById('login').innerText = `Login`
+    document.getElementById('welcome').innerText = ``
     }).catch(function(error) {
         // An error happened.
     });
