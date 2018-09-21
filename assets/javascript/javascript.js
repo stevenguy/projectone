@@ -1,17 +1,19 @@
 var recipeArray = [];
-var i = recipeArray.length
-
-console.log(recipeArray)
-
 var index = 0
+console.log(recipeArray)
 
 // Click button to push to firebase
 $(document).on('click', '.favorite-class', function() {
-        let id = $(this).attr('id')
-        let partials = id.split('h')
-        let pos = partials[1]
-        database.ref().push(recipeArray[pos])
+    // Logs buttons id
+    let id = $(this).attr('id')
+    // Extracts button's id number
+    let partials = id.split('h')
+    // Logs buttons position
+    let pos = partials[1]
+    // Pushes data to firebase based on position
+    database.ref().push(recipeArray[pos])
 })
+
 // API search call
 $('#newRecipe').on('click', function(event) {
     event.preventDefault()
@@ -152,18 +154,18 @@ function outputFavorite() {
 
         console.log(childSnapshot.val());
 
-        var fbID = childSnapshot.val().id //
-        var fbImage = childSnapshot.val().image //
-        var fbTitle = childSnapshot.val().title //
-        var fbLink = childSnapshot.val().link //
-        var fbDetails = childSnapshot.val().details //  
-        var fbIngredients = childSnapshot.val().ingredient //
-        var fbSource = childSnapshot.val().publisher //
+        var fbID = childSnapshot.val().id
+        var fbImage = childSnapshot.val().image
+        var fbTitle = childSnapshot.val().title
+        var fbLink = childSnapshot.val().link
+        var fbDetails = childSnapshot.val().details
+        var fbIngredients = childSnapshot.val().ingredient
+        var fbSource = childSnapshot.val().publisher
         var recipefbDiv = $('<div class="card">')
         var titlefbCard = $('<div class="card-content">')
         var imagefbCard = $('<div class="card-image">')
         var cardfbAction = $('<div class="card-action">')
-        var fbfavorite = $("<button id='" + fbID + "' class='halfway-fab btn-floating pink'><i class='material-icons'>cancel</i></a>")
+        var fbfavorite = $("<button id='" + fbID + "' class='favorite-delete halfway-fab btn-floating pink'><i class='material-icons'>cancel</i></a>")
         // append image from fb
         imagefbCard.append($('<img>').attr("src", fbImage))
         imagefbCard.attr('data-image',fbImage)
@@ -180,8 +182,15 @@ function outputFavorite() {
         recipefbDiv.append(imagefbCard)
         recipefbDiv.append(titlefbCard)
         recipefbDiv.append(cardfbAction)
-        // OUt put
-        $("#favoriteOutput").prepend(recipefbDiv);
+        // Push firebase data into html
+        $("#favoriteOutput").prepend(recipefbDiv)
+
+        $(document).on('click', '.favorite-delete', function(event){
+            event.preventDefault()
+            let id = $(this).attr('id')
+            console.log(id)
+            recipefbDiv.remove()
+        });
     });
 }
 
@@ -222,7 +231,6 @@ function menuNav () {
         $('#favoriteOutput').show();
         // CODE TO CALL FAVORITES TO POPULATE FROM FIREBASE
         outputFavorite()
-
     });
 }
 menuNav()
