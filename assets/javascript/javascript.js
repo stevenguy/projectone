@@ -1,17 +1,20 @@
 var recipeArray = [];
-var i = recipeArray.length
-
+var index = 0
 console.log(recipeArray)
 
-var index = 1
-
-
-$(document).on('click', '#search' + index, function() {
-    database.ref().push(recipeArray[i])
-    console.log('check')
-    console.log('#search' + index)
+// Click button to push to firebase
+$(document).on('click', '.favorite-class', function() {
+    // Logs buttons id
+    let id = $(this).attr('id')
+    // Extracts button's id number
+    let partials = id.split('h')
+    // Logs buttons position
+    let pos = partials[1]
+    // Pushes data to firebase based on position
+    database.ref().push(recipeArray[pos])
 })
 
+// API search call
 $('#newRecipe').on('click', function(event) {
     event.preventDefault()
     $('#recipeOutput').empty()
@@ -19,6 +22,7 @@ $('#newRecipe').on('click', function(event) {
     recipeDisplay()
 });
 
+// Firebase call and authorization
 var config = {
     //api key
     apiKey: "AIzaSyAbRbiP02AIlIqtd1dt_o4oVqIEZQ_649Q",
@@ -28,11 +32,8 @@ var config = {
     databaseURL: "https://recipes-7858e.firebaseio.com/",
     storageBucket: "recipes-7858e.appspot.com"
   };
-
 firebase.initializeApp(config);
-
 var database = firebase.database();
-
 
 // Recipe API Call Function
 function recipeDisplay (){
@@ -60,7 +61,7 @@ function recipeDisplay (){
             var cardAction = $('<div class="card-action">')
             var cardID = 'search' + index
             var recipeImage = results[i].image_url
-            var favorite = $("<button id='" + cardID + "' class='halfway-fab btn-floating pink'><i class='material-icons'>favorite</i></a>")
+            var favorite = $("<button id='" + cardID + "' class='favorite-class halfway-fab btn-floating pink'><i class='material-icons'>favorite</i></a>")
             // Appending Recipe Image to Materialize Div
             imageCard.append($('<img>').attr("src", recipeImage))
             imageCard.attr('data-image',results[i].image_url)
@@ -78,9 +79,7 @@ function recipeDisplay (){
             recipeDiv.append(imageCard)
             recipeDiv.append(title)
             recipeDiv.append(cardAction)
-
-            // Appending Materialize Card Div to HTML
-
+            // Create local object to push to global div
             var recipesObj = {
                 id: cardID,
                 image: recipeImage,
@@ -90,15 +89,9 @@ function recipeDisplay (){
                 details: results[i].f2f_url,
                 ingredient: results[i].f2f_url
             }
-
             recipeArray.push(recipesObj);
-
+            // Push API call to html
             $('#recipeOutput').append(recipeDiv)
-
-            // $(document).on('click', '#search' + index, function() {
-            //         database.ref().push(recipeArray[i])
-            //         console.log('check')
-            // })
         }
     })
 
@@ -118,7 +111,7 @@ function recipeDisplay (){
             var title = $('<div class="card-content">')
             var imageCard = $('<div class="card-image">')
             var cardAction = $('<div class="card-action">')
-            var favorite = $("<button id='" + cardID + "' class='halfway-fab btn-floating pink'><i class='material-icons'>favorite</i></a>")
+            var favorite = $("<button id='" + cardID + "' class='favorite-class halfway-fab btn-floating pink'><i class='material-icons'>favorite</i></a>")
             // Appending Recipe Image to Materialize Div
             var recipeImage = results[i].recipe.image
             imageCard.append($('<img>').attr("src", recipeImage))
@@ -137,8 +130,7 @@ function recipeDisplay (){
             recipeDiv.append(imageCard)
             recipeDiv.append(title)
             recipeDiv.append(cardAction)
-
-
+            // Create local object to push to global div
             var recipesObj = {
                 id: cardID,
                 image: recipeImage,
@@ -148,36 +140,32 @@ function recipeDisplay (){
                 details: results[i].recipe.url,
                 ingredient: results[i].recipe.url
             }
-
             recipeArray.push(recipesObj)
-
+            // Push API call to html
             $('#recipeOutput').append(recipeDiv)
         }
-        
     })
 }
-recipeDisplay()
 
-
-
+// function to call Firebase data
 function outputFavorite() {
 
     database.ref().on("child_added", function(childSnapshot) {
 
         console.log(childSnapshot.val());
 
-        var fbID = childSnapshot.val().id //
-        var fbImage = childSnapshot.val().image //
-        var fbTitle = childSnapshot.val().title //
-        var fbLink = childSnapshot.val().link //
-        var fbDetails = childSnapshot.val().details //  
-        var fbIngredients = childSnapshot.val().ingredient //
-        var fbSource = childSnapshot.val().publisher //
+        var fbID = childSnapshot.val().id
+        var fbImage = childSnapshot.val().image
+        var fbTitle = childSnapshot.val().title
+        var fbLink = childSnapshot.val().link
+        var fbDetails = childSnapshot.val().details
+        var fbIngredients = childSnapshot.val().ingredient
+        var fbSource = childSnapshot.val().publisher
         var recipefbDiv = $('<div class="card">')
         var titlefbCard = $('<div class="card-content">')
         var imagefbCard = $('<div class="card-image">')
         var cardfbAction = $('<div class="card-action">')
-        var fbfavorite = $("<button id='" + fbID + "' class='halfway-fab btn-floating pink'><i class='material-icons'>favorite</i></a>")
+        var fbfavorite = $("<button id='" + fbID + "' class='favorite-delete halfway-fab btn-floating pink'><i class='material-icons'>cancel</i></a>")
         // append image from fb
         imagefbCard.append($('<img>').attr("src", fbImage))
         imagefbCard.attr('data-image',fbImage)
@@ -194,12 +182,19 @@ function outputFavorite() {
         recipefbDiv.append(imagefbCard)
         recipefbDiv.append(titlefbCard)
         recipefbDiv.append(cardfbAction)
+        // Push firebase data into html
+        $("#favoriteOutput").prepend(recipefbDiv)
 
-        $("#favoriteOutput").append(recipefbDiv);
+        $(document).on('click', '.favorite-delete', function(event){
+            event.preventDefault()
+            let id = $(this).attr('id')
+            console.log(id)
+            recipefbDiv.remove()
+        });
     });
 }
-outputFavorite()
 
+// function to navigate pages
 function menuNav () {
     // Switch back to home page
     $('#home').on('click', function(event) {
@@ -236,7 +231,6 @@ function menuNav () {
         $('#favoriteOutput').show();
         // CODE TO CALL FAVORITES TO POPULATE FROM FIREBASE
         outputFavorite()
-
     });
 }
 menuNav()
