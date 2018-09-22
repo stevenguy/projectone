@@ -10,6 +10,7 @@ $(document).on('click', '.favorite-class', function() {
     let partials = id.split('h')
     // Logs buttons position
     let pos = partials[1]
+    console.log(pos)
     // Pushes data to firebase based on position
     database.ref().push(recipeArray[pos])
 })
@@ -155,6 +156,7 @@ function outputFavorite() {
         console.log(childSnapshot.val());
 
         var fbID = childSnapshot.val().id
+        console.log(fbID)
         var fbImage = childSnapshot.val().image
         var fbTitle = childSnapshot.val().title
         var fbLink = childSnapshot.val().link
@@ -194,46 +196,26 @@ function outputFavorite() {
     });
 }
 
-// function to navigate pages
-function menuNav () {
-    // Switch back to home page
-    $('#home').on('click', function(event) {
-        event.preventDefault()
-        $('#searchBar').show();
-        $('#recipeButton').show();
-        $('#recipeOutput').show();
-        $('#favoriteOutput').hide();
-    });
-    $('#home1').on('click', function(event) {
-        event.preventDefault()
-        $('#searchBar').show();
-        $('#recipeButton').show();
-        $('#recipeOutput').show();
-        $('#favoriteOutput').hide();
-    });
-    // Switch back to favorite page
-    $('#favorite').on('click', function(event) {
-        event.preventDefault()
-        $('#searchBar').hide();
-        $('#recipeButton').hide();
-        $('#recipeOutput').hide();
-        $("#favoriteOutput").empty();
-        $('#favoriteOutput').show();
-        // CODE TO CALL FAVORITES TO POPULATE FROM FIREBASE
-        outputFavorite()
-    });
-    $('#favorite1').on('click', function(event) {
-        event.preventDefault()
-        $('#searchBar').hide();
-        $('#recipeButton').hide();
-        $('#recipeOutput').hide();
-        $("#favoriteOutput").empty();
-        $('#favoriteOutput').show();
-        // CODE TO CALL FAVORITES TO POPULATE FROM FIREBASE
-        outputFavorite()
-    });
-}
-menuNav()
+// Switch back to home page
+$(document).on('click', '.navigation-home', function(event) {
+    event.preventDefault()
+    $('#searchBar').show();
+    $('#recipeButton').show();
+    $('#recipeOutput').show();
+    $('#favoriteOutput').hide();
+});
+
+// Switch back to favorite page
+$(document).on('click', '.navigation-favorite', function(event) {
+    event.preventDefault()
+    $('#searchBar').hide();
+    $('#recipeButton').hide();
+    $('#recipeOutput').hide();
+    $("#favoriteOutput").empty();
+    $('#favoriteOutput').show();
+    // CODE TO CALL FAVORITES TO POPULATE FROM FIREBASE
+    outputFavorite()
+});
 
 
 // Firebase observer on the Auth object to get the current user
