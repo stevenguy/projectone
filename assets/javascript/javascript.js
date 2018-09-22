@@ -171,10 +171,10 @@ firebase.auth().onAuthStateChanged(function(user) {
     }
 });
 
-// ON CLICK FUCTIONS AREA
-// ON CLICK FUCTIONS AREA
-// ON CLICK FUCTIONS AREA
-// ON CLICK FUCTIONS AREA
+// ON CLICK FUNCTIONS AREA
+// ON CLICK FUNCTIONS AREA
+// ON CLICK FUNCTIONS AREA
+// ON CLICK FUNCTIONS AREA
 
 // On Page Load app and hide elements
 $(document).ready(function() {
@@ -284,10 +284,10 @@ $('#login').on('click', function(event) {
     });
 });
 
-// FUCTIONS AREA
-// FUCTIONS AREA
-// FUCTIONS AREA
-// FUCTIONS AREA
+// FUNCTIONS AREA
+// FUNCTIONS AREA
+// FUNCTIONS AREA
+// FUNCTIONS AREA
 
 // function to call Firebase data
 function outputFavorite() {
