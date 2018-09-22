@@ -44,7 +44,8 @@ firebase.auth().onAuthStateChanged(function(user) {
             });
             // Recipe API Call Function
             function recipeDisplay (){
-
+                var recipeObjArray= []
+                console.log(recipeObjArray)
                 var recipes = $("#autocomplete-input").val().trim()
                 // Food2Fork API Call
                 var queryURL = "https://www.food2fork.com/api/search?key=b6ba5a04e7601145d1bb74c118bab4c1&q=" + recipes
@@ -72,6 +73,8 @@ firebase.auth().onAuthStateChanged(function(user) {
                         var cardID = 'search' + index
                         var recipeImage = results[i].image_url
                         var favorite = $("<button id='" + cardID + "' class='favorite-class halfway-fab btn-floating pink'><i class='material-icons'>favorite</i></a>")
+                        var currentDate = moment()
+                        var date = moment(currentDate, "MM/DD/YYYY").format("MM/DD/YYYY")
                         // Appending Recipe Image to Materialize Div
                         imageCard.append($('<img>').attr("src", recipeImage))
                         imageCard.attr('data-image',results[i].image_url)
@@ -80,6 +83,7 @@ firebase.auth().onAuthStateChanged(function(user) {
                         title.append($('<h6><br>').append(results[i].title))
                         title.append($('<p><br>').text('By: '+ results[i].publisher))
                         title.attr('data-title', results[i].title)
+                        title.append($('<p><br>').html('Search Date: ' + date))
                         // Appending Recipe Links to Materialize Div
                         cardAction.append($('<span>').html("<a href='" + results[i].f2f_url + "'>More Details</a>"))
                         cardAction.append($('<span>').html("<a href='" + results[i].f2f_url + "'>View Ingredients</a><br>"))
@@ -98,7 +102,8 @@ firebase.auth().onAuthStateChanged(function(user) {
                             publisher: results[i].publisher,
                             link: results[i].f2f_url,
                             details: results[i].f2f_url,
-                            ingredient: results[i].f2f_url
+                            ingredient: results[i].f2f_url,
+                            date: date
                         }
                         recipeArray.push(recipesObj);
                         console.log(recipesObj)
@@ -127,6 +132,9 @@ firebase.auth().onAuthStateChanged(function(user) {
                         var imageCard = $('<div class="card-image">')
                         var cardAction = $('<div class="card-action">')
                         var favorite = $("<button id='" + cardID + "' class='favorite-class halfway-fab btn-floating pink'><i class='material-icons'>favorite</i></a>")
+                        var currentDate = moment()
+                        var date = moment(currentDate, "MM/DD/YYYY").format("MM/DD/YYYY")
+                        // var date = moment(fbDate, "mm/dd/yyyy")
                         // Appending Recipe Image to Materialize Div
                         var recipeImage = results[i].recipe.image
                         imageCard.append($('<img>').attr("src", recipeImage))
@@ -136,6 +144,7 @@ firebase.auth().onAuthStateChanged(function(user) {
                         title.append($('<h6><br>').text(results[i].recipe.label))
                         title.append($('<p><br>').text('By: '+ results[i].recipe.source))
                         title.attr('data-title', results[i].recipe.label)
+                        title.append($('<p><br>').html('Search Date: ' + date))
                         // Appending Recipe Links to Materialize Div
                         cardAction.append($('<span>').html("<a href='" + results[i].recipe.url + "'>More Details</a>"))
                         cardAction.append($('<span>').html("<a href='" + results[i].recipe.url + "'>View Ingredients</a><br>"))
@@ -154,7 +163,8 @@ firebase.auth().onAuthStateChanged(function(user) {
                             publisher: results[i].recipe.source,
                             link: results[i].recipe.url,
                             details: results[i].recipe.url,
-                            ingredient: results[i].recipe.url
+                            ingredient: results[i].recipe.url,
+                            date: date
                         }
                         recipeArray.push(recipesObj)
                         console.log(recipesObj)
@@ -162,6 +172,85 @@ firebase.auth().onAuthStateChanged(function(user) {
                         $('#recipeOutput').append(recipeDiv)
                     }
                 })
+            }
+
+            // function to call Firebase data
+            function outputFavorite() {
+
+                // Set Current User as a variable for favorite's output
+                var loggedUser = firebase.auth().currentUser.email
+                
+                database.ref().on("child_added", function(childSnapshot) {
+                    // Pull only current user's data from firebase
+                    if (loggedUser == childSnapshot.val().user) {
+
+                        var fbID = childSnapshot.val().id
+                        var fbImage = childSnapshot.val().image
+                        var fbTitle = childSnapshot.val().title
+                        var fbLink = childSnapshot.val().link
+                        var fbDetails = childSnapshot.val().details
+                        var fbIngredients = childSnapshot.val().ingredient
+                        var fbSource = childSnapshot.val().publisher
+                        var fbDate = childSnapshot.val().date
+                        var recipefbDiv = $('<div class="card">')
+                        var titlefbCard = $('<div class="card-content">')
+                        var imagefbCard = $('<div class="card-image">')
+                        var cardfbAction = $('<div class="card-action">')
+                        var fbfavorite = $("<button id='" + fbID + "' class='favorite-delete halfway-fab btn-floating pink'><i class='material-icons'>cancel</i></a>")
+                        // append image from fb
+                        imagefbCard.append($('<img>').attr("src", fbImage))
+                        imagefbCard.attr('data-image',fbImage)
+                        imagefbCard.append(fbfavorite)
+                        // Appending Recipe Title & Source from fb to dv
+                        titlefbCard.append($('<h6><br>').text(fbTitle))
+                        titlefbCard.append($('<p><br>').text('By: '+ fbSource))
+                        titlefbCard.attr('data-title', fbTitle)
+                        titlefbCard.append($('<p><br>').html('Saved Date: ' + fbDate))
+                        // Appending Recipe Links to Materialize Div
+                        cardfbAction.append($('<span>').html("<a href='" + fbDetails + "'>More Details</a>"))
+                        cardfbAction.append($('<span>').html("<a href='" + fbIngredients + "'>View Ingredients</a><br>"))
+                        cardfbAction.attr('data-link', fbLink)
+                        // Appending All Elements to Main Materialize Card Div
+                        recipefbDiv.append(imagefbCard)
+                        recipefbDiv.append(titlefbCard)
+                        recipefbDiv.append(cardfbAction)
+                        // Push firebase data into html
+                        $("#favoriteOutput").prepend(recipefbDiv)
+
+                        // $(document).on('click', '.favorite-delete', function(event){
+                        //     event.preventDefault()
+                        //     let id = $(this).attr('id')
+                        //     let partials = id.split('h')
+                        //     let pos = partials[1]
+                        //     console.log(id)
+                        //     $(this).closest('.card').remove();
+                        //     database.ref().remove().key(this)
+                        //     console.log(childSnapshot)
+                        // });
+                    }
+                });
+            }
+            // Load menus when user is logged in
+            function loginMenu () {
+                // Switch back to home page
+                $(document).on('click', '.navigation-home', function(event) {
+                    event.preventDefault() 
+                    $('#searchBar').show();
+                    $('#recipeButton').show();
+                    $('#recipeOutput').show();
+                    $('#favoriteOutput').hide();
+                });
+                // Switch back to favorite page
+                $(document).on('click', '.navigation-favorite', function(event) {
+                    event.preventDefault()
+                    $('#searchBar').hide();
+                    $('#recipeButton').hide();
+                    $('#recipeOutput').hide();
+                    $("#favoriteOutput").empty();
+                    $('#favoriteOutput').show();
+                    // CODE TO CALL FAVORITES TO POPULATE FROM FIREBASE
+                    outputFavorite()
+                });
             }
         }
     } else {
@@ -198,16 +287,7 @@ $(document).on('click', '.favorite-class', function() {
 })
 
 // Delete from database -- added feature
-// $(document).on('click', '.favorite-delete', function(event){
-//     event.preventDefault()
-//     let id = $(this).attr('id')
-//     let partials = id.split('h')
-//     let pos = partials[1]
-//     console.log(id)
-//     $(this).closest('.card').remove();
-//     database.ref().remove().key()
-//     console.log(childSnapshot)
-// });
+
 
 //Login onclick delegated function  
 $('#sign-in').on('click', function(event) {
@@ -284,72 +364,11 @@ $('#login').on('click', function(event) {
     });
 });
 
-// FUNCTIONS AREA
-// FUNCTIONS AREA
-// FUNCTIONS AREA
-// FUNCTIONS AREA
+// STAND ALONE FUNCTIONS AREA
+// STAND ALONE FUNCTIONS AREA
+// STAND ALONE FUNCTIONS AREA
+// STAND ALONE FUNCTIONS AREA
 
-// function to call Firebase data
-function outputFavorite() {
-
-    database.ref().on("child_added", function(childSnapshot) {
-
-        console.log(childSnapshot.val());
-        // var fbUser = childSnapshot.val().user
-        var fbID = childSnapshot.val().id
-        var fbImage = childSnapshot.val().image
-        var fbTitle = childSnapshot.val().title
-        var fbLink = childSnapshot.val().link
-        var fbDetails = childSnapshot.val().details
-        var fbIngredients = childSnapshot.val().ingredient
-        var fbSource = childSnapshot.val().publisher
-        var recipefbDiv = $('<div class="card">')
-        var titlefbCard = $('<div class="card-content">')
-        var imagefbCard = $('<div class="card-image">')
-        var cardfbAction = $('<div class="card-action">')
-        var fbfavorite = $("<button id='" + fbID + "' class='favorite-delete halfway-fab btn-floating pink'><i class='material-icons'>cancel</i></a>")
-        // append image from fb
-        imagefbCard.append($('<img>').attr("src", fbImage))
-        imagefbCard.attr('data-image',fbImage)
-        imagefbCard.append(fbfavorite)
-        // Appending Recipe Title & Source from fb to dv
-        titlefbCard.append($('<h6><br>').text(fbTitle))
-        titlefbCard.append($('<p><br>').text('By: '+ fbSource))
-        titlefbCard.attr('data-title', fbTitle)
-        // Appending Recipe Links to Materialize Div
-        cardfbAction.append($('<span>').html("<a href='" + fbDetails + "'>More Details</a>"))
-        cardfbAction.append($('<span>').html("<a href='" + fbIngredients + "'>View Ingredients</a><br>"))
-        cardfbAction.attr('data-link', fbLink)
-        // Appending All Elements to Main Materialize Card Div
-        recipefbDiv.append(imagefbCard)
-        recipefbDiv.append(titlefbCard)
-        recipefbDiv.append(cardfbAction)
-        // Push firebase data into html
-        $("#favoriteOutput").prepend(recipefbDiv)
-    });
-}
-// Load login buttons and navigation
-function loginMenu () {
-    // Switch back to home page
-    $(document).on('click', '.navigation-home', function(event) {
-        event.preventDefault() 
-        $('#searchBar').show();
-        $('#recipeButton').show();
-        $('#recipeOutput').show();
-        $('#favoriteOutput').hide();
-    });
-    // Switch back to favorite page
-    $(document).on('click', '.navigation-favorite', function(event) {
-        event.preventDefault()
-        $('#searchBar').hide();
-        $('#recipeButton').hide();
-        $('#recipeOutput').hide();
-        $("#favoriteOutput").empty();
-        $('#favoriteOutput').show();
-        // CODE TO CALL FAVORITES TO POPULATE FROM FIREBASE
-        outputFavorite()
-    });
-}
 // Sign out hide elements
 function signOutFunction() {
     $('#searchBar').hide();
