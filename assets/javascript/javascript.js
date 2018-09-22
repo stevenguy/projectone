@@ -187,60 +187,67 @@ function outputFavorite() {
         // Push firebase data into html
         $("#favoriteOutput").prepend(recipefbDiv)
 
-        $(document).on('click', '.favorite-delete', function(event){
-            event.preventDefault()
-            let id = $(this).attr('id')
-            console.log(id)
-            recipefbDiv.remove()
-        });
+        // $(document).on('click', '.favorite-delete', function(event){
+        //     event.preventDefault()
+        //     let id = $(this).attr('id')
+        //     console.log(id)
+        //     $(this).closest('.card').remove();
+        //     database.ref().remove().key()
+        //     console.log(childSnapshot)
+        // });
     });
 }
 
+function loginMenu () {
 // Switch back to home page
-$(document).on('click', '.navigation-home', function(event) {
-    event.preventDefault()
-    $('#searchBar').show();
-    $('#recipeButton').show();
-    $('#recipeOutput').show();
-    $('#favoriteOutput').hide();
-});
-
-// Switch back to favorite page
-$(document).on('click', '.navigation-favorite', function(event) {
-    event.preventDefault()
-    $('#searchBar').hide();
-    $('#recipeButton').hide();
-    $('#recipeOutput').hide();
-    $("#favoriteOutput").empty();
-    $('#favoriteOutput').show();
-    // CODE TO CALL FAVORITES TO POPULATE FROM FIREBASE
-    outputFavorite()
-});
-
+    $(document).on('click', '.navigation-home', function(event) {
+        event.preventDefault()
+        $('#searchBar').show();
+        $('#recipeButton').show();
+        $('#recipeOutput').show();
+        $('#favoriteOutput').hide();
+    });
+    // Switch back to favorite page
+    $(document).on('click', '.navigation-favorite', function(event) {
+        event.preventDefault()
+        $('#searchBar').hide();
+        $('#recipeButton').hide();
+        $('#recipeOutput').hide();
+        $("#favoriteOutput").empty();
+        $('#favoriteOutput').show();
+        // CODE TO CALL FAVORITES TO POPULATE FROM FIREBASE
+        outputFavorite()
+    });
+}
 
 // Firebase observer on the Auth object to get the current user
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-//      document.getElementById("user_div").style.display = "none"   // need to define div id
-      document.getElementById("login-page").style.display = "none"  //hide login page if already logged in
-      document.getElementById("login").innerText = "Logout"  //change login nav page to logout if already logged in
-        menuNav()
-    
-      var user = firebase.auth().currentUser;
+        
+        document.getElementById("login-page").style.display = "none"  //hide login page if already logged in
+        document.getElementById("login").innerText = "Logout"  //change login nav page to logout if already logged in
 
-      if(user != null){
-          var email_id = user.email;
-          document.getElementById('welcome').innerText = `Welcome ${email_id}`
-          document.getElementById('login').innerHTML = `Logout`
-          menuNav()
-      }
+        var user = firebase.auth().currentUser;
+
+        if(user != null){
+            var email_id = user.email;
+            document.getElementById('welcome').innerText = `Welcome ${email_id}`
+            document.getElementById('login').innerHTML = `Logout`
+            $('#home').show();
+            $('#favorite').show();
+            $('#login').show();
+            $('#home1').show();
+            $('#favorite1').show();
+            $('#login1').show();
+            loginMenu()
+        }
 
     } else {
         // No user is signed in.
-        // document.getElementById("user_div").style.display = "none"   // need to define div id
+        signOutFunction()
         document.getElementById("login-page").style.display = "block"
     }
-  });
+});
 
 
 //Login onclick delegated function  
@@ -271,7 +278,7 @@ $('#sign-in').on('click', function(event) {
         var errorMessage = error.message;
         console.log("Error Code - " + errorCode)
         console.log("Error Message - " + errorMessage)
-      });
+    });
 });
 
 //Create New Account onclick delegated function
@@ -302,7 +309,7 @@ $('#create-acct').on('click', function(event) {
         var errorMessage = error.message;
         console.log("Error Code - " + errorCode)
         console.log("Error Message - " + errorMessage)
-      });
+    });
 });
 
 //User sign-out (need to create sign-out button and change to delegated event handler)
@@ -310,9 +317,33 @@ $('#login').on('click', function(event) {
     event.preventDefault()
     firebase.auth().signOut().then(function() {
         // Sign-out successful.
-    document.getElementById('login').innerText = `Login`
-    document.getElementById('welcome').innerText = ``
+        signOutFunction()
+        document.getElementById('login').innerText = `Login`
+        document.getElementById('welcome').innerText = ``
     }).catch(function(error) {
         // An error happened.
     });
+    
+});
+
+// Sign out hide elements
+function signOutFunction() {
+        $('#searchBar').hide();
+        $('#recipeButton').hide();
+        $('#recipeOutput').hide();
+        $('#favoriteOutput').hide();
+        $('#home').hide();
+        $('#favorite').hide();
+        $('#login').hide();
+        $('#home1').hide();
+        $('#favorite1').hide();
+        $('#login1').hide();
+}
+
+// Load app and hide elements
+$(document).ready(function() {
+    $('#searchBar').hide();
+    $('#recipeButton').hide();
+    $('#recipeOutput').hide();
+    $('#favoriteOutput').hide();
 });
