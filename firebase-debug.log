@@ -1,0 +1,25 @@
+[debug] [2018-09-21T04:06:42.078Z] ----------------------------------------------------------------------
+[debug] [2018-09-21T04:06:42.082Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\bhacker\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase init
+[debug] [2018-09-21T04:06:42.082Z] CLI Version:   4.2.1
+[debug] [2018-09-21T04:06:42.082Z] Platform:      win32
+[debug] [2018-09-21T04:06:42.082Z] Node Version:  v8.11.3
+[debug] [2018-09-21T04:06:42.103Z] Time:          Thu Sep 20 2018 21:06:42 GMT-0700 (Pacific Daylight Time)
+[debug] [2018-09-21T04:06:42.103Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-09-21T04:06:42.125Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase"]
+[debug] [2018-09-21T04:06:42.125Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\bhacker\documents\UCIcodingbootcamp\Project1_recipes\projectone
+
+Before we get started, keep in mind:
+
+  * You are initializing in an existing Firebase project directory
+

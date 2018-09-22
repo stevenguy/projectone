@@ -10,6 +10,7 @@ $(document).on('click', '.favorite-class', function() {
     let partials = id.split('h')
     // Logs buttons position
     let pos = partials[1]
+    console.log(pos)
     // Pushes data to firebase based on position
     database.ref().push(recipeArray[pos])
 })
@@ -25,12 +26,12 @@ $('#newRecipe').on('click', function(event) {
 // Firebase call and authorization
 var config = {
     //api key
-    apiKey: "AIzaSyAbRbiP02AIlIqtd1dt_o4oVqIEZQ_649Q",
-    //authorize domain
-    authDomain: "recipes-7858e.firebaseapp.com",
-    //Database URL
-    databaseURL: "https://recipes-7858e.firebaseio.com/",
-    storageBucket: "recipes-7858e.appspot.com"
+        apiKey: "AIzaSyA3BzDyft3LLZTe5rAux69uMHVixFiCRAU",
+        authDomain: "recipes-7858e.firebaseapp.com",
+        databaseURL: "https://recipes-7858e.firebaseio.com",
+        projectId: "recipes-7858e",
+        storageBucket: "recipes-7858e.appspot.com",
+        messagingSenderId: "93447278727"
   };
 firebase.initializeApp(config);
 var database = firebase.database();
@@ -155,6 +156,7 @@ function outputFavorite() {
         console.log(childSnapshot.val());
 
         var fbID = childSnapshot.val().id
+        console.log(fbID)
         var fbImage = childSnapshot.val().image
         var fbTitle = childSnapshot.val().title
         var fbLink = childSnapshot.val().link
@@ -194,45 +196,123 @@ function outputFavorite() {
     });
 }
 
-// function to navigate pages
-function menuNav () {
-    // Switch back to home page
-    $('#home').on('click', function(event) {
-        event.preventDefault()
-        $('#searchBar').show();
-        $('#recipeButton').show();
-        $('#recipeOutput').show();
-        $('#favoriteOutput').hide();
-    });
-    $('#home1').on('click', function(event) {
-        event.preventDefault()
-        $('#searchBar').show();
-        $('#recipeButton').show();
-        $('#recipeOutput').show();
-        $('#favoriteOutput').hide();
-    });
-    // Switch back to favorite page
-    $('#favorite').on('click', function(event) {
-        event.preventDefault()
-        $('#searchBar').hide();
-        $('#recipeButton').hide();
-        $('#recipeOutput').hide();
-        $("#favoriteOutput").empty();
-        $('#favoriteOutput').show();
-        // CODE TO CALL FAVORITES TO POPULATE FROM FIREBASE
-        outputFavorite()
-    });
-    $('#favorite1').on('click', function(event) {
-        event.preventDefault()
-        $('#searchBar').hide();
-        $('#recipeButton').hide();
-        $('#recipeOutput').hide();
-        $("#favoriteOutput").empty();
-        $('#favoriteOutput').show();
-        // CODE TO CALL FAVORITES TO POPULATE FROM FIREBASE
-        outputFavorite()
-    });
-}
-menuNav()
+// Switch back to home page
+$(document).on('click', '.navigation-home', function(event) {
+    event.preventDefault()
+    $('#searchBar').show();
+    $('#recipeButton').show();
+    $('#recipeOutput').show();
+    $('#favoriteOutput').hide();
+});
+
+// Switch back to favorite page
+$(document).on('click', '.navigation-favorite', function(event) {
+    event.preventDefault()
+    $('#searchBar').hide();
+    $('#recipeButton').hide();
+    $('#recipeOutput').hide();
+    $("#favoriteOutput").empty();
+    $('#favoriteOutput').show();
+    // CODE TO CALL FAVORITES TO POPULATE FROM FIREBASE
+    outputFavorite()
+});
 
 
+// Firebase observer on the Auth object to get the current user
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+//      document.getElementById("user_div").style.display = "none"   // need to define div id
+      document.getElementById("login-page").style.display = "none"  //hide login page if already logged in
+      document.getElementById("login").innerText = "Logout"  //change login nav page to logout if already logged in
+        menuNav()
+    
+      var user = firebase.auth().currentUser;
+
+      if(user != null){
+          var email_id = user.email;
+          document.getElementById('welcome').innerText = `Welcome ${email_id}`
+          document.getElementById('login').innerHTML = `Logout`
+          menuNav()
+      }
+
+    } else {
+        // No user is signed in.
+        // document.getElementById("user_div").style.display = "none"   // need to define div id
+        document.getElementById("login-page").style.display = "block"
+    }
+  });
+
+
+//Login onclick delegated function  
+$('#sign-in').on('click', function(event) {
+    event.preventDefault()
+    $('#email').empty()
+    var userEmail = document.getElementById('email-field').value
+    var userPW = document.getElementById('pw-field').value
+    if(userEmail.includes("@")) {
+    }
+    else{console.log("invalid email - must include an '@' ")}  //update console log error to write to HTML
+    
+    var suffixArr = ['.com','.org','.gov','.edu']
+
+    for(var i = 0; i<= suffixArr.length ;i++){
+        if(userEmail.substr(-4) == suffixArr[i]){
+            break;
+        }
+        else{ 
+            console.log("invalid email, must contain a valid suffix") //update console log error to write to HTML
+        break
+        }
+    }
+    console.log(userEmail + " " + userPW)
+    firebase.auth().signInWithEmailAndPassword(userEmail, userPW).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log("Error Code - " + errorCode)
+        console.log("Error Message - " + errorMessage)
+      });
+});
+
+//Create New Account onclick delegated function
+$('#create-acct').on('click', function(event) {
+    event.preventDefault()
+    $('#email').empty()
+    console.log('create acct - on click working')
+    var userEmail = document.getElementById('email-field').value
+    var userPW = document.getElementById('pw-field').value
+    firebase.auth().createUserWithEmailAndPassword(userEmail, userPW).catch(function(error) {
+        if(userEmail.includes("@")) {
+        }
+        else{console.log("invalid email - must include an '@' ")}  //update console log error to write to HTML
+        
+        var suffixArr = ['.com','.org','.gov','.edu']
+    
+        for(var i = 0; i<= suffixArr.length ;i++){
+            if(userEmail.substr(-4) == suffixArr[i]){
+                break;
+            }
+            else{ 
+                console.log("invalid email, must contain a valid suffix") //update console log error to write to HTML
+            break
+            }
+        }
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log("Error Code - " + errorCode)
+        console.log("Error Message - " + errorMessage)
+      });
+});
+
+//User sign-out (need to create sign-out button and change to delegated event handler)
+$('#login').on('click', function(event) {
+    event.preventDefault()
+    firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+    document.getElementById('login').innerText = `Login`
+    document.getElementById('welcome').innerText = ``
+    }).catch(function(error) {
+        // An error happened.
+    });
+});

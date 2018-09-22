@@ -10,7 +10,7 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <script src='https://www.gstatic.com/firebasejs/5.5.1/firebase.js'></script>
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     
@@ -25,16 +25,17 @@
                 <i class="med material-icons">menu</i>
             </a>
             <ul class="right hide-on-med-and-down">
-            <li><a id="home">Home</a></li>
-            <li><a id="favorite">Favorite</a></li>
-            <li><a id="login">Login</a></li>
+            <li><a id="welcome"></a></li>
+            <li><a id="home" class="navigation-home">Home</a></li>
+            <li><a id="favorite" class="navigation-favorite">Favorite</a></li>
+            <li><a id="login" class="navigation-login">Login</a></li>
             </ul>
         </div>
     </nav>
     <ul class="sidenav" id="mobile-links">
-        <li><a id="home1">Home</a></li>
-        <li><a id="favorite1">Favorite</a></li>
-        <li><a id="login1">Login</a></li>
+        <li><a id="home1" class="navigation-home">Home</a></li>
+        <li><a id="favorite1" class="navigation-favorite">Favorite</a></li>
+        <li><a id="login1" class="navigation-login">Login</a></li>
     </ul>
 
     <!--Search Bar and Output area-->
@@ -69,15 +70,15 @@
     <!--Login page-->
     <div id="login-page" class="loginBox">
         <!-- <img src="assets/images/chef.png" class="user" alt="chef"> -->
-        <h2>Login Here</h2>
+        <h2 id="login-header">Login Here</h2>
         <form>
             <p>Email</p>
-            <input type="text" name="" placeholder="Enter Email">
+            <input id="email-field" type="text" name="email" placeholder="Enter Email">
             <p>Password</p>
-            <input type="text" name="" placeholder="******">
-            <input type="submit" name="" value="Sign In">
-            <input type="submit" name="" value="Create New Account">
-            <a href="#">Forget Password</a>
+            <input id="pw-field" type="text" name="" placeholder="">
+            <input id="sign-in" type="submit" name="" value="Sign In">
+            <input id="create-acct" type="submit" name="" value="Create New Account">
+            <a href="#">Forgot Password</a>
         </form>
     </div>
     
