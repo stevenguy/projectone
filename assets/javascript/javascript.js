@@ -253,6 +253,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 // ON CLICK FUNCTIONS AREA
 // ON CLICK FUNCTIONS AREA
 // ON CLICK FUNCTIONS AREA
+// ON CLICK FUNCTIONS AREA
 
 // On Page Load app and hide elements
 $(document).ready(function() {
