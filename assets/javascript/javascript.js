@@ -196,7 +196,7 @@ firebase.auth().onAuthStateChanged(function(user) {
                         var titlefbCard = $('<div class="card-content">')
                         var imagefbCard = $('<div class="card-image">')
                         var cardfbAction = $('<div class="card-action">')
-                        var fbfavorite = $("<button id='" + fbID + "' class='favorite-delete halfway-fab btn-floating pink'><i class='material-icons'>cancel</i></a>")
+                        var fbfavorite = $("<button id='" + fbID + "' class='favorite-delete halfway-fab btn-floating pink'><i class='material-icons'>favorite</i></a>")
                         // append image from fb
                         imagefbCard.append($('<img>').attr("src", fbImage))
                         imagefbCard.attr('data-image',fbImage)
@@ -216,17 +216,6 @@ firebase.auth().onAuthStateChanged(function(user) {
                         recipefbDiv.append(cardfbAction)
                         // Push firebase data into html
                         $("#favoriteOutput").prepend(recipefbDiv)
-
-                        // $(document).on('click', '.favorite-delete', function(event){
-                        //     event.preventDefault()
-                        //     let id = $(this).attr('id')
-                        //     let partials = id.split('h')
-                        //     let pos = partials[1]
-                        //     console.log(id)
-                        //     $(this).closest('.card').remove();
-                        //     database.ref().remove().key(this)
-                        //     console.log(childSnapshot)
-                        // });
                     }
                 });
             }
