@@ -307,6 +307,8 @@ $('#sign-in').on('click', function(event) {
         var errorMessage = error.message;
         console.log("Error Code - " + errorCode)
         console.log("Error Message - " + errorMessage)
+        $('#invalid-user').show();
+        $('#invalid-user').append('Invalid user. Please create account')
     });
 });
 
@@ -371,4 +373,5 @@ function signOutFunction() {
     $('#home1').hide();
     $('#favorite1').hide();
     $('#login1').hide();
+    $('#invalid-user').hide();
 }
