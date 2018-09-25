@@ -261,6 +261,7 @@ $(document).ready(function() {
     $('#recipeButton').hide();
     $('#recipeOutput').hide();
     $('#favoriteOutput').hide();
+    $('#invalid-user').hide();
 });
 
 // Click button to push to firebase
@@ -308,7 +309,6 @@ $('#sign-in').on('click', function(event) {
         console.log("Error Code - " + errorCode)
         console.log("Error Message - " + errorMessage)
         $('#invalid-user').show();
-        $('#invalid-user').append('Invalid user. Please create account')
     });
 });
 
