@@ -2,6 +2,8 @@ var recipeArray = [];
 var index = 0
 console.log(recipeArray)
 
+// Test push to clear and overwrite kim's push to master after project presentation
+
 // Firebase call and authorization
 var config = {
     //api key
