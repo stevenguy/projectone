@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <script src='https://www.gstatic.com/firebasejs/5.5.1/firebase.js'></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    
+   
+</head>
+<body>
+    <!--Navigation Menu-->
+    <nav class="nav-wrapper cyan lighten-2">
+        <div class="container">
+            <a href="#" class="brand-logo">Food Recipe</a>
+            <a href="#" class="sidenav-trigger" data-target="mobile-links">
+                <i class="med material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+            <li><a id="welcome"></a></li>
+            <li><a id="home" class="navigation-home">Search</a></li>
+            <li><a id="favorite" class="navigation-favorite">Favorite</a></li>
+            <li><a id="login" class="navigation-login">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+    <ul class="sidenav" id="mobile-links">
+        <li><a id="home1" class="navigation-home">Search</a></li>
+        <li><a id="favorite1" class="navigation-favorite">Favorite</a></li>
+        <li><a id="login1" class="navigation-login">Login</a></li>
+    </ul>
+
+    <!--Search Bar and Output area-->
+    <div class="container">
+        <div class="row" style="height: 50px;"></div>
+        <!-- Search Bar -->
+        <div id="searchBar" class="row">
+            <div class="col s12">
+                <span id="empty-recipe"></span>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">restaurant</i>
+                        <input type="text" id="autocomplete-input" class="autocomplete">
+                        <label for="autocomplete-input">Search Recipes</label>
+                    </div>
+                    <input id="newRecipe" type="submit" class="waves-effect waves-light btn">
+                </div>
+            </div>
+        </div>
+        <!--Recipe API Output Favorite Searches Button Menu-->
+        <div id="recipeButton" class="container"></div>
+        <div class="container">
+            <div class="row">
+                <!--Recipe output Menu-->
+                <div id="recipeOutput">
+                </div>
+                <!--Favorite Output area-->
+                <div id="favoriteOutput">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Login page-->
+    <div id="login-page" class="loginBox">
+        <h2 id="login-header">Login Here</h2>
+        <form>
+            <span id="invalid-user" class="invalid-user">Invalid user. Please create account</span><br>
+            <p>Email</p>
+            <input id="email-field" type="text" name="email" placeholder="Enter Email">
+            <p>Password</p>
+            <input id="pw-field" type="text" name="" placeholder="">
+            <input id="sign-in" type="submit" name="" value="Sign In">
+            <input id="create-acct" type="submit" name="" value="Create New Account">
+            <a href="#">Forgot Password</a>
+        </form>
+    </div>
+
+
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script type="text/javascript" src="assets/javascript/javascript.js"></script>
+
+    <script>
+    $(document).ready(function(){
+        $('.sidenav').sidenav();
+    })
+    </script>
+  
+</body>
+</html>
