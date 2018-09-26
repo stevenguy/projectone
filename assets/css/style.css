@@ -89,3 +89,8 @@ body {
     max-width: auto;
     padding: 30px;
 }
+
+.invalid-user {
+    color: white;
+    font-weight: bold;
+}

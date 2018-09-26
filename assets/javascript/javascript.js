@@ -196,7 +196,7 @@ firebase.auth().onAuthStateChanged(function(user) {
                         var titlefbCard = $('<div class="card-content">')
                         var imagefbCard = $('<div class="card-image">')
                         var cardfbAction = $('<div class="card-action">')
-                        var fbfavorite = $("<button id='" + fbID + "' class='favorite-delete halfway-fab btn-floating pink'><i class='material-icons'>cancel</i></a>")
+                        var fbfavorite = $("<button id='" + fbID + "' class='favorite-delete halfway-fab btn-floating pink'><i class='material-icons'>favorite</i></a>")
                         // append image from fb
                         imagefbCard.append($('<img>').attr("src", fbImage))
                         imagefbCard.attr('data-image',fbImage)
@@ -216,17 +216,6 @@ firebase.auth().onAuthStateChanged(function(user) {
                         recipefbDiv.append(cardfbAction)
                         // Push firebase data into html
                         $("#favoriteOutput").prepend(recipefbDiv)
-
-                        // $(document).on('click', '.favorite-delete', function(event){
-                        //     event.preventDefault()
-                        //     let id = $(this).attr('id')
-                        //     let partials = id.split('h')
-                        //     let pos = partials[1]
-                        //     console.log(id)
-                        //     $(this).closest('.card').remove();
-                        //     database.ref().remove().key(this)
-                        //     console.log(childSnapshot)
-                        // });
                     }
                 });
             }
@@ -264,6 +253,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 // ON CLICK FUNCTIONS AREA
 // ON CLICK FUNCTIONS AREA
 // ON CLICK FUNCTIONS AREA
+// ON CLICK FUNCTIONS AREA
 
 // On Page Load app and hide elements
 $(document).ready(function() {
@@ -271,6 +261,7 @@ $(document).ready(function() {
     $('#recipeButton').hide();
     $('#recipeOutput').hide();
     $('#favoriteOutput').hide();
+    $('#invalid-user').hide();
 });
 
 // Click button to push to firebase
@@ -317,6 +308,7 @@ $('#sign-in').on('click', function(event) {
         var errorMessage = error.message;
         console.log("Error Code - " + errorCode)
         console.log("Error Message - " + errorMessage)
+        $('#invalid-user').show();
     });
 });
 
@@ -381,4 +373,5 @@ function signOutFunction() {
     $('#home1').hide();
     $('#favorite1').hide();
     $('#login1').hide();
+    $('#invalid-user').hide();
 }
